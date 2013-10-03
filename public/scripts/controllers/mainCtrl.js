@@ -27,13 +27,7 @@ function MainCtrl($scope) {
     else {
       plainNumber = getRandomNumber();
     }
-  }
-
-  function getRandomNumber(min, max) {
-    var min = min || 0
-      , max = max || $scope.maximum;
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
+  };
 
   $scope.sayNumber = function() {
     var speech;
@@ -57,12 +51,16 @@ function MainCtrl($scope) {
       $scope.removeStar();
       say(reprimand());
     }
-  }
+  };
 
   $scope.showAnswer = function() {
     alert(correctAnswer());
     clearAnswer();
-  }
+  };
+
+  $scope.disableMaximum = function() {
+    return $scope.numberType === 'year';
+  };
 
   $scope.addStar = function() {
     $scope.stars.push({ number: $scope.stars.length + 1 });
@@ -71,6 +69,12 @@ function MainCtrl($scope) {
   $scope.removeStar = function() {
     $scope.stars.pop();
   };
+
+  function getRandomNumber(min, max) {
+    var min = min || 0
+      , max = max || $scope.maximum;
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
 
   function correctAnswer() {
     if ($scope.numberType === 'currency') {

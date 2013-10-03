@@ -7,7 +7,7 @@
     %link{ href: "styles/foundation.css", rel: "stylesheet" }
     %link{ href: "styles/app.css", rel: "stylesheet" }
   %body{ "ng-app" => "numerosApp" }
-    #content{ "ng-controller" => "MainCtrl" }
+    #content.ng-cloak{ "ng-controller" => "MainCtrl" }
       .row
         .large-12.columns
           %h1
@@ -28,7 +28,7 @@
             %small Type in the number you heard
           %form{ name: "answerForm", "ng-submit" => "respond()" }
             %input{ placeholder: "Answer", type: "text", "ng-model" => "response", required: "required" }
-            %input.radius.button{ text: "Submit Answer", type: "submit", "ng-disabled" => "answerForm.$invalid" }
+            %input#submit.radius.button{ text: "Submit Answer", type: "submit", "ng-disabled" => "answerForm.$invalid" }
             %a#showanswer.alert.radius.button{ "ng-click" => "showAnswer()", "ng-disabled" => "!numberSpoken" } I give up!
             %em For plain numbers, do not include commas (1234); for currencies, include just the decimal (12.34).
 
@@ -59,20 +59,20 @@
               %input#typecurrency{ "ng-model" => "numberType", type: "radio", value: "currency" }
                 Currency
             %label{ for: "typeyear" }
-              %input#typecurrency{ "ng-model" => "numberType", type: "radio", value: "year" }
+              %input#typeyear{ "ng-model" => "numberType", type: "radio", value: "year" }
                 Year
 
             %h5
               Maximum
               %small Start small, go big!
             %label{ for: "max10" }
-              %input#max10{ "ng-model" => "maximum", type: "radio", value: "10" }
+              %input#max10{ "ng-model" => "maximum", type: "radio", value: "10", "ng-disabled" => "disableMaximum()" }
                 10
             %label{ for: "max100" }
-              %input#max100{ "ng-model" => "maximum", type: "radio", value: "100" }
+              %input#max100{ "ng-model" => "maximum", type: "radio", value: "100","ng-disabled" => "disableMaximum()"   }
                 100
             %label{ for: "max1000" }
-              %input#max1000{ "ng-model" => "maximum", type: "radio", value: "1000" }
+              %input#max1000{ "ng-model" => "maximum", type: "radio", value: "1000", "ng-disabled" => "disableMaximum()" }
                 1000
 
             %h5
