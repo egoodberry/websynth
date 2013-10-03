@@ -1,0 +1,62 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <title>Les Numéros</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="styles/normalize.css" rel="stylesheet" />
+    <link href="styles/foundation.css" rel="stylesheet" />
+    <link href="styles/app.css" rel="stylesheet" />
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="scripts/speak.js"></script>
+    <script src="scripts/app.js"></script>
+  </head>
+  <body>
+    <div id="content">
+      <h1>
+        Les Numéros
+        <small>Practice your French numbers!</small>
+      </h1>
+
+      <div id="audio"></div>
+      <a id="next" class="large radius button">Say a Number</a>
+
+      <form>
+        <h5>
+          The number that was spoken
+          <small>(ie 3441 or 1.23)</small>
+        <h5>
+        <input type="text" id="answer" placeholder="Answer" />
+        <input type="submit" id="submit" text="Submit Answer" class="radius button" />
+        <a id="repeat" class="secondary button">Repeat</a>
+        <a id="showanswer" class="alert button">Show Answer</a>
+
+        <fieldset>
+          <legend>Options</legend>
+
+          <h5>
+            Number Type
+            <small>Stop giving that cashier a blank stare.</small>
+          </h5>
+          <label for="typeplain"><input name="numbertype" type="radio" id="typeplain" checked>Plain</label>
+          <label for="typecurrency"><input name="numbertype" type="radio" id="typecurrency">Currency</label>
+
+          <h5>
+            Maximum
+            <small>Start small, go big!</small>
+          </h5>
+          <label for="max10"><input name="maximum" type="radio" id="max10" value="10">10</label>
+          <label for="max100"><input name="maximum" type="radio" id="max100" value="100" checked>100</label>
+          <label for="max1000"><input name="maximum" type="radio" id="max1000" value="1000">1000</label>
+
+          <h5>
+            Voice Speed
+          </h5>
+          <span>Slow</span>
+          <input type="range" id="speed" min="100" max="300" step="50" value="100" />
+          <span>Fast</span>
+        </fieldset>
+
+      </form>
+    </div>
+  </body>
+</html>
