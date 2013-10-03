@@ -1,5 +1,3 @@
-require 'rubygems'
-require 'haml'
 require 'sinatra'
 
 set :haml, :format => :html5
