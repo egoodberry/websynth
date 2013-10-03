@@ -1,6 +1,7 @@
-function AnswerCtrl($scope) {
+function MainCtrl($scope) {
   $scope.response = null;
   $scope.numberSpoken = false;
+  $scope.stars = [];
 
   $scope.speed = 100;
   $scope.maximum = 100;
@@ -19,6 +20,9 @@ function AnswerCtrl($scope) {
     if ($scope.numberType === 'currency') {
       euro = getRandomNumber();
       centimes = getRandomNumber(0, 99);
+    }
+    else if ($scope.numberType === 'year') {
+      plainNumber = getRandomNumber(1000, 2100);
     }
     else {
       plainNumber = getRandomNumber();
@@ -46,11 +50,11 @@ function AnswerCtrl($scope) {
   $scope.respond = function() {
     if ($scope.response === correctAnswer()) {
       say(praise());
-      $scope.$broadcast('addStar');
+      $scope.addStar();
       clearAnswer();
     }
     else {
-      $scope.$broadcast('removeStar');
+      $scope.removeStar();
       say(reprimand());
     }
   }
@@ -59,6 +63,14 @@ function AnswerCtrl($scope) {
     alert(correctAnswer());
     clearAnswer();
   }
+
+  $scope.addStar = function() {
+    $scope.stars.push({ number: $scope.stars.length + 1 });
+  };
+
+  $scope.removeStar = function() {
+    $scope.stars.pop();
+  };
 
   function correctAnswer() {
     if ($scope.numberType === 'currency') {
@@ -92,7 +104,7 @@ function AnswerCtrl($scope) {
     return reprimands[index];
   }
 
-  var praises = ["exact", "correcte", "excellent", "magnefique"];
-  var reprimands = ["non", "tort"];
+  var praises = ["exact!", "correcte!", "excellent!", "magnefique!"];
+  var reprimands = ["non!", "tort!"];
 }
-numerosApp.controller('AnswerCtrl', AnswerCtrl);
+numerosApp.controller('MainCtrl', MainCtrl);

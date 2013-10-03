@@ -2,12 +2,12 @@
 %html
   %head
     %title Les Numéros
-    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
-    %link{href: "styles/normalize.css", rel: "stylesheet"}
-    %link{href: "styles/foundation.css", rel: "stylesheet"}
-    %link{href: "styles/app.css", rel: "stylesheet"}
+    %meta{ content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type" }
+    %link{ href: "styles/normalize.css", rel: "stylesheet" }
+    %link{ href: "styles/foundation.css", rel: "stylesheet" }
+    %link{ href: "styles/app.css", rel: "stylesheet" }
   %body{ "ng-app" => "numerosApp" }
-    #content{ "ng-controller" => "AnswerCtrl" }
+    #content{ "ng-controller" => "MainCtrl" }
       .row
         .large-12.columns
           %h1
@@ -20,63 +20,81 @@
           %h2
             Step 1
             %small Listen to the spoken number
-          %a#next.large.radius.expand.button{ "ng-click" => "newNumber()" } Say a Number
-          %a#repeat.large.radius.expand.secondary.button{ "ng-click" => "sayNumber()", "ng-disabled" => "!numberSpoken" } Repeat
+          %a.large.radius.expand.button{ "ng-click" => "newNumber()" } Say a Number
+          %a.large.radius.expand.secondary.button{ "ng-click" => "sayNumber()", "ng-disabled" => "!numberSpoken" } Repeat
         .large-6.columns
           %h2
             Step 2
             %small Type in the number you heard
           %form{ name: "answerForm", "ng-submit" => "respond()" }
-            %input#response{placeholder: "Answer", type: "text", "ng-model" => "response", required: "required"}
-            %input#submit.radius.button{text: "Submit Answer", type: "submit", "ng-disabled" => "answerForm.$invalid" }
+            %input{ placeholder: "Answer", type: "text", "ng-model" => "response", required: "required" }
+            %input.radius.button{ text: "Submit Answer", type: "submit", "ng-disabled" => "answerForm.$invalid" }
             %a#showanswer.alert.radius.button{ "ng-click" => "showAnswer()", "ng-disabled" => "!numberSpoken" } I give up!
-            %em For plain numbers, do not include commas (1234); for currencies, use just the decimal (12.34).
+            %em For plain numbers, do not include commas (1234); for currencies, include just the decimal (12.34).
 
-      .row.star-list{ "ng-controller" => "StarListCtrl" }
+      .row
         .large-12.columns
           %h2
             Step 3
-            %small Earn all the stars!
+            %small Count all the stars!
           .stars{ "ng-show" => "stars.length" }
             %span.star{ "ng-repeat" => "star in stars" }
               %img{ src: "images/star.png" }
+                {{ star.number }}
           %p{ "ng-show" => "!stars.length" }
-            No stars!
+            No stars yet! (Hint: you have to <i>earn</i> them.)
 
       .row.options
         .large-12.columns
           %fieldset
             %legend Options
+
             %h5
               Number Type
               %small Stop giving that cashier a blank stare.
-            %label{for: "typeplain"}
-              %input#typeplain{checked: "checked", "ng-model" => "numberType", type: "radio", value: "plain"}
+            %label{ for: "typeplain" }
+              %input#typeplain{ checked: "checked", "ng-model" => "numberType", type: "radio", value: "plain" }
                 Plain
-            %label{for: "typecurrency"}
-              %input#typecurrency{"ng-model" => "numberType", type: "radio", value: "currency"}
+            %label{ for: "typecurrency" }
+              %input#typecurrency{ "ng-model" => "numberType", type: "radio", value: "currency" }
                 Currency
+            %label{ for: "typeyear" }
+              %input#typecurrency{ "ng-model" => "numberType", type: "radio", value: "year" }
+                Year
+
             %h5
               Maximum
               %small Start small, go big!
-            %label{for: "max10"}
-              %input#max10{ "ng-model" => "maximum", type: "radio", value: "10"}>
-              10
-            %label{for: "max100"}
-              %input#max100{ "ng-model" => "maximum", type: "radio", value: "100"}>
-              100
-            %label{for: "max1000"}
-              %input#max1000{ "ng-model" => "maximum", type: "radio", value: "1000"}>
-              1000
+            %label{ for: "max10" }
+              %input#max10{ "ng-model" => "maximum", type: "radio", value: "10" }
+                10
+            %label{ for: "max100" }
+              %input#max100{ "ng-model" => "maximum", type: "radio", value: "100" }
+                100
+            %label{ for: "max1000" }
+              %input#max1000{ "ng-model" => "maximum", type: "radio", value: "1000" }
+                1000
+
             %h5
               Voice Speed
+              %small Step on it.
             %span Slow
-            %input#speed{ "ng-model" => "speed", max: "300", min: "100", step: "50", type: "range" }
+            %input{ "ng-model" => "speed", max: "300", min: "100", step: "50", type: "range" }
             %span Fast
+
+      .row.footer
+        Site built by
+        %a{ href: "http://www.someweather.com" }
+          Evan Goodberry
+        using
+        %a{ href: "http://www.masswerk.at/mespeak/" }
+          meSpeak
+        while eating a
+        %a{ href: "http://www.bagelpubparkslope.com/" }
+          bagel
 
     %script{src: "http://code.jquery.com/jquery-1.10.1.min.js"}
     %script{src: "http://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"}
     %script{src: "scripts/speak.js"}
     %script{src: "scripts/app.js"}
-    %script{src: "scripts/controllers/starListCtrl.js"}
-    %script{src: "scripts/controllers/answerCtrl.js"}
+    %script{src: "scripts/controllers/mainCtrl.js"}
