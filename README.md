@@ -9,5 +9,3 @@ The creepy robot voice is provided by a Javascript library
 called [meSpeak](http://www.masswerk.at/mespeak), which was
 kind enough to include a French language. So, really, the
 hard part was done already.
-
-
