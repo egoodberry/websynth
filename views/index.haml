@@ -6,11 +6,13 @@
     %link{ href: "styles/normalize.css", rel: "stylesheet" }
     %link{ href: "styles/foundation.css", rel: "stylesheet" }
     %link{ href: "styles/app.css", rel: "stylesheet" }
-  %body{ "ng-app" => "numerosApp" }
+  %body{ "ng-app" => "app" }
+
     .ng-show
       %img{ src: "images/loading.gif" }
       %h2 Loading... 
       (This might take a second- the speech library is gigantic.)
+
     #content.ng-cloak{ "ng-controller" => "MainCtrl" }
       .row
         .large-12.columns
@@ -26,6 +28,7 @@
             %small Listen to the spoken number
           %a.large.radius.expand.button{ "ng-click" => "newNumber()" } Say a Number
           %a.large.radius.expand.secondary.button{ "ng-click" => "sayNumber()", "ng-disabled" => "!numberSpoken" } Repeat
+
         .large-6.columns
           %h2
             Step 2

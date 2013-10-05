@@ -7,26 +7,11 @@ function MainCtrl($scope) {
   $scope.maximum = 100;
   $scope.numberType = "plain";
 
-  var plainNumber = null;
-  var euro = null;
-  var centimes = null;
+  var plainNumber, euro, centimes = null;
 
   $scope.newNumber = function() {
-    $scope.setNumber();
+    setNumber();
     $scope.sayNumber();
-  };
-
-  $scope.setNumber = function() {
-    if ($scope.numberType === 'currency') {
-      euro = getRandomNumber();
-      centimes = getRandomNumber(0, 99);
-    }
-    else if ($scope.numberType === 'year') {
-      plainNumber = getRandomNumber(1000, 2100);
-    }
-    else {
-      plainNumber = getRandomNumber();
-    }
   };
 
   $scope.sayNumber = function() {
@@ -70,6 +55,19 @@ function MainCtrl($scope) {
     $scope.stars.pop();
   };
 
+  function setNumber() {
+    if ($scope.numberType === 'currency') {
+      euro = getRandomNumber();
+      centimes = getRandomNumber(0, 99);
+    }
+    else if ($scope.numberType === 'year') {
+      plainNumber = getRandomNumber(1000, 2100);
+    }
+    else {
+      plainNumber = getRandomNumber();
+    }
+  }
+
   function getRandomNumber(min, max) {
     var min = min || 0
       , max = max || $scope.maximum;
@@ -111,4 +109,4 @@ function MainCtrl($scope) {
   var praises = ["exact!", "correcte!", "excellent!", "magnefique!"];
   var reprimands = ["non!", "tort!"];
 }
-numerosApp.controller('MainCtrl', MainCtrl);
+app.controller('MainCtrl', MainCtrl);
