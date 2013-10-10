@@ -10,7 +10,7 @@
 
     .ng-show
       %img{ src: "images/loading.gif" }
-      %h2 Loading... 
+      %h2 Loading...
       (This might take a second- the speech library is gigantic.)
 
     #content.ng-cloak{ "ng-controller" => "MainCtrl" }
@@ -100,8 +100,8 @@
         <a href="https://github.com/egoodberry/lesnombres">View source</a>.
 
     %script{src: "http://code.jquery.com/jquery-1.10.1.min.js"}
-    %script{src: "http://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"}
-    %script{src: "scripts/meSpeak/speak.js"}
+    %script{src: "scripts/vendor/angular.js"}
+    %script{src: "scripts/vendor/meSpeak/speak.js"}
     %script{src: "scripts/app.js"}
     %script{src: "scripts/controllers/mainCtrl.js"}
     :javascript

@@ -1,4 +1,9 @@
 function MainCtrl($scope) {
+  var plainNumber, euro, centimes = null;
+
+  var praises = ["exact!", "correcte!", "excellent!", "magnefique!"];
+  var reprimands = ["non!", "tort!"];
+
   $scope.response = null;
   $scope.numberSpoken = false;
   $scope.stars = [];
@@ -6,8 +11,6 @@ function MainCtrl($scope) {
   $scope.speed = 100;
   $scope.maximum = 100;
   $scope.numberType = "plain";
-
-  var plainNumber, euro, centimes = null;
 
   $scope.newNumber = function() {
     setNumber();
@@ -27,20 +30,20 @@ function MainCtrl($scope) {
   };
 
   $scope.respond = function() {
-    if ($scope.response === correctAnswer()) {
+    if ($scope.response === correctResponse()) {
       say(praise());
       $scope.addStar();
-      clearAnswer();
+      clearResponse();
     }
     else {
-      $scope.removeStar();
       say(reprimand());
+      $scope.removeStar();
     }
   };
 
   $scope.showAnswer = function() {
-    alert(correctAnswer());
-    clearAnswer();
+    alert(correctResponse());
+    clearResponse();
   };
 
   $scope.disableMaximum = function() {
@@ -74,7 +77,7 @@ function MainCtrl($scope) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  function correctAnswer() {
+  function correctResponse() {
     if ($scope.numberType === 'currency') {
       return euro + '.' + centimes;
     }
@@ -83,7 +86,7 @@ function MainCtrl($scope) {
     }
   }
 
-  function clearAnswer() {
+  function clearResponse() {
     $scope.response = null;
     plainNumber = null;
     euro = null;
@@ -105,8 +108,6 @@ function MainCtrl($scope) {
     var index = Math.floor(Math.random() * reprimands.length);
     return reprimands[index];
   }
-
-  var praises = ["exact!", "correcte!", "excellent!", "magnefique!"];
-  var reprimands = ["non!", "tort!"];
 }
-app.controller('MainCtrl', MainCtrl);
+
+LesNombres.App.controller('MainCtrl', MainCtrl);
