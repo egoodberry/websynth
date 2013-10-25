@@ -1,4 +1,5 @@
 meSpeak = {
-  loadConfig: function() { },
-  loadVoice: function() { }
+  loadConfig: function() {},
+  loadVoice: function() {},
+  speak: function() {}
 };

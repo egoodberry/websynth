@@ -18,6 +18,7 @@ module.exports = function(config) {
       'angular-mocks.js',
       'meSpeak-mocks.js',
       '../public/scripts/app.js',
+      '../public/scripts/lib/*.js',
       '../public/scripts/controllers/*.js',
       'jasmine-ext.js',
       '**/*.js'
