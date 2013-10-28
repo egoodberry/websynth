@@ -7,12 +7,14 @@ App.voice = {
   },
 
   praise: function() {
-    var index = Math.floor(Math.random() * _praises.length);
-    return _praises[index];
+    var index = Math.floor(Math.random() * this._praises.length)
+      , randomPraise = this._praises[index];
+    this.say(randomPraise);
   },
 
   reprimand: function() {
-    var index = Math.floor(Math.random() * _reprimands.length);
-    return _reprimands[index];
+    var index = Math.floor(Math.random() * this._reprimands.length)
+      , randomReprimand = this._reprimands[index];
+    this.say(randomReprimand);
   }
 };

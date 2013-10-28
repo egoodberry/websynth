@@ -23,8 +23,11 @@
       else {
         speech = plainNumber;
       }
-      ns.voice.say(speech, $scope.speed);
-      $scope.numberSpoken = true;
+
+      if (speech) {
+        ns.voice.say(speech, $scope.speed);
+        $scope.numberSpoken = true;
+      }
     };
 
     $scope.respond = function() {
@@ -40,8 +43,11 @@
     };
 
     $scope.showAnswer = function() {
-      ns.util.alert(correctResponse());
-      clearResponse();
+      var response = correctResponse();
+      if (response !== null) {
+        ns.util.alert(response);
+        clearResponse();
+      }
     };
 
     $scope.disableMaximum = function() {
@@ -73,8 +79,11 @@
       if ($scope.numberType === 'currency') {
         return euro + '.' + centimes;
       }
-      else {
+      else if (plainNumber !== null) {
         return String(plainNumber);
+      }
+      else {
+        return null;
       }
     }
 

@@ -18,51 +18,64 @@ describe("MainCtrl", function() {
   });
 
   describe("#newNumber", function() {
-    beforeEach(function() {
-      spyOn(App.util, "randomNumber").andCallFake(function(min, max) {
-        if (min === 0 && max === 99) { // currency centimes
-          return 3;
-        }
-        else if (min === 1000 && max === 2100) { // year
-          return 4;
-        }
-        else { // plain number
-          return 5;
-        }
+    context("with a valid speech value", function() {
+      beforeEach(function() {
+        spyOn(App.util, "randomNumber").andCallFake(function(min, max) {
+          if (min === 0 && max === 99) { // currency centimes
+            return 3;
+          }
+          else if (min === 1000 && max === 2100) { // year
+            return 4;
+          }
+          else { // plain number
+            return 5;
+          }
+        });
+        spyOn(App.voice, "say");
+        scope.speed = 9;
       });
-      spyOn(App.voice, "say");
-      scope.speed = 9;
+
+      describe("state", function() {
+        beforeEach(function() {
+          scope.newNumber();
+        });
+
+        it("sets numberSpoken to true", function() {
+          expect(scope.numberSpoken).toBeTruthy();
+        });
+      });
+
+      context("when the numberType is set to currency", function() {
+        beforeEach(function() {
+          scope.numberType = 'currency';
+          scope.newNumber();
+        });
+
+        it("speaks the numbers as a monetary value", function() {
+          expect(App.voice.say).toHaveBeenCalledWith("5 euro 3", scope.speed);
+        });
+      });
+
+      context("when the numberType is set to plain", function() {
+        beforeEach(function() {
+          scope.numberType = 'plain';
+          scope.newNumber();
+        });
+
+        it("speaks the number", function() {
+          expect(App.voice.say).toHaveBeenCalledWith(5, scope.speed);
+        });
+      });
     });
 
-    describe("state", function() {
+    context("when the speech value is null", function() {
       beforeEach(function() {
-        scope.newNumber();
+        spyOn(App.voice, "say");
       });
 
-      it("sets numberSpoken to true", function() {
-        expect(scope.numberSpoken).toBeTruthy();
-      });
-    });
-
-    context("when the numberType is set to currency", function() {
-      beforeEach(function() {
-        scope.numberType = 'currency';
-        scope.newNumber();
-      });
-
-      it("speaks the numbers as a monetary value", function() {
-        expect(App.voice.say).toHaveBeenCalledWith("5 euro 3", scope.speed);
-      });
-    });
-
-    context("when the numberType is set to plain", function() {
-      beforeEach(function() {
-        scope.numberType = 'plain';
-        scope.newNumber();
-      });
-
-      it("speaks the number", function() {
-        expect(App.voice.say).toHaveBeenCalledWith(5, scope.speed);
+      it("does nothing", function() {
+        scope.sayNumber();
+        expect(App.voice.say).not.toHaveBeenCalled();
       });
     });
   });
@@ -175,23 +188,36 @@ describe("MainCtrl", function() {
   describe("#showAnswer", function() {
     beforeEach(function() {
       spyOn(App.util, "alert");
-      establishCorrectAnswer();
     });
 
-    function establishCorrectAnswer() {
-      spyOn(App.util, "randomNumber").andReturn(25);
-      scope.newNumber();
-    }
+    context("when no answer is available", function() {
+      beforeEach(function() {
+        spyOn(App.util, "randomNumber").andReturn(null);
+        scope.newNumber();
+      });
 
-    it("alerts the correct answer", function() {
-      scope.showAnswer();
-      expect(App.util.alert).toHaveBeenCalledWith("25");
+      it("does nothing", function() {
+        scope.showAnswer();
+        expect(App.util.alert).not.toHaveBeenCalled();
+      });
     });
 
-    it("clears the response", function() {
-      scope.showAnswer();
-      expect(scope.response).toBeNull();
-      expect(scope.numberSpoken).toBeFalsy();
+    context("when an answer is available", function() {
+      beforeEach(function() {
+        spyOn(App.util, "randomNumber").andReturn(25);
+        scope.newNumber();
+      });
+
+      it("alerts the correct answer", function() {
+        scope.showAnswer();
+        expect(App.util.alert).toHaveBeenCalledWith("25");
+      });
+
+      it("clears the response", function() {
+        scope.showAnswer();
+        expect(scope.response).toBeNull();
+        expect(scope.numberSpoken).toBeFalsy();
+      });
     });
   });
 
