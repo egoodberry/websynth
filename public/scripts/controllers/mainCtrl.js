@@ -1,99 +1,49 @@
 (function(ns) {
   ns.registerController('MainCtrl', function($scope) {
-    var plainNumber, euro, centimes = null;
+    $scope.voices = [];
 
-    $scope.response = null;
-    $scope.numberSpoken = false;
-    $scope.stars = [];
-
-    $scope.speed = 100;
-    $scope.maximum = 100;
-    $scope.numberType = "plain";
-
-    $scope.newNumber = function() {
-      setNumber();
-      $scope.sayNumber();
+    var keyboard = new QwertyHancock({ id: "keyboard" });
+    keyboard.keyDown = function (_, frequency) {
+      play(frequency);
     };
 
-    $scope.sayNumber = function() {
-      var speech;
-      if ($scope.numberType === 'currency') {
-        speech = euro + ' euro ' + centimes;
-      }
-      else {
-        speech = plainNumber;
-      }
+    $scope.addVoice = function() {
+      $scope.voices.push(new ns.Voice($scope));
+    };
 
-      if (speech) {
-        ns.voice.say(speech, $scope.speed);
-        $scope.numberSpoken = true;
+    $scope.addVoice();
+
+    var play = function(frequency) {
+      for (var i = 0; i < $scope.voices.length; i++) {
+        $scope.voices[i].play(frequency);
       }
     };
 
-    $scope.respond = function() {
-      if ($scope.response === correctResponse()) {
-        ns.voice.praise();
-        $scope.addStar();
-        clearResponse();
-      }
-      else {
-        ns.voice.reprimand();
-        $scope.removeStar();
-      }
-    };
-
-    $scope.showAnswer = function() {
-      var response = correctResponse();
-      if (response !== null) {
-        ns.util.alert(response);
-        clearResponse();
-      }
-    };
-
-    $scope.disableMaximum = function() {
-      return $scope.numberType === 'year';
-    };
-
-    $scope.addStar = function() {
-      $scope.stars.push({ number: $scope.stars.length + 1 });
-    };
-
-    $scope.removeStar = function() {
-      $scope.stars.pop();
-    };
-
-    function setNumber() {
-      if ($scope.numberType === 'currency') {
-        euro = ns.util.randomNumber(0, $scope.maximum);
-        centimes = ns.util.randomNumber(0, 99);
-      }
-      else if ($scope.numberType === 'year') {
-        plainNumber = ns.util.randomNumber(1000, 2100);
-      }
-      else {
-        plainNumber = ns.util.randomNumber(0, $scope.maximum);
-      }
+    if (navigator.requestMIDIAccess) {
+      navigator.requestMIDIAccess(); //.then( onMIDIStarted)
     }
 
-    function correctResponse() {
-      if ($scope.numberType === 'currency') {
-        return euro + '.' + centimes;
-      }
-      else if (plainNumber !== null) {
-        return String(plainNumber);
-      }
-      else {
-        return null;
-      }
-    }
+    // var arpeggiator;
+    // $scope.arpeggiate = function() {
+    // if (oscillator) {
+    // arpeggiator = new ns.arpeggiator(oscillator);
+    // arpeggiator.start();
+    // }
+    // };
 
-    function clearResponse() {
-      $scope.response = null;
-      plainNumber = null;
-      euro = null;
-      centimes = null;
+    // var buildWave = function(voice) {
+      // var real = new Float32Array(4096);
+      // var imag = new Float32Array(4096);
 
-      $scope.numberSpoken = false;
-    }
+      // var a1 = 0.0;
+      // var b1 = 1.0;
+
+      // var shift = 2 * Math.PI * 0.5;
+      // real[1] = a1 * Math.cos(shift) - b1 * Math.sin(shift);
+      // imag[1] = a1 * Math.sin(shift) + b1 * Math.cos(shift);
+      // // imag[1] = 1.0;
+
+      // ns.audioContext.createPeriodicWave(real, imag);
+    // };
   });
 })(App);

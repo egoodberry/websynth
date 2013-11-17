@@ -1,116 +1,55 @@
 !!!
 %html
   %head
-    %title Les Nombres
+    %title THYNTH
     %meta{ content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type" }
-    %link{ href: "styles/normalize.css", rel: "stylesheet" }
-    %link{ href: "styles/foundation.css", rel: "stylesheet" }
     %link{ href: "styles/app.css", rel: "stylesheet" }
   %body{ "ng-app" => "app" }
-
-    .ng-show
-      %img{ src: "images/loading.gif" }
-      %h2 Loading...
-      (This might take a second- the speech library is gigantic.)
-
     #content.ng-cloak{ "ng-controller" => "MainCtrl" }
-      .row
-        .large-12.columns
-          %h1
-            Les Nombres
-            %small Practice your French numbers!
-          #audio
 
-      .row.answer
-        .large-6.columns
-          %h2
-            Step 1
-            %small Listen to the spoken number
-          %a.large.radius.expand.button{ "ng-click" => "newNumber()" } Say a Number
-          %a.large.radius.expand.secondary.button{ "ng-click" => "sayNumber()", "ng-disabled" => "!numberSpoken" } Repeat
+      #keyboard
 
-        .large-6.columns
-          %h2
-            Step 2
-            %small Type in the number you heard
-          %form{ name: "answerForm", "ng-submit" => "respond()" }
-            %input{ placeholder: "Answer", type: "text", "ng-model" => "response", required: "required" }
-            %input#submit.radius.button{ text: "Submit Answer", type: "submit", "ng-disabled" => "answerForm.$invalid" }
-            %a#showanswer.alert.radius.button{ "ng-click" => "showAnswer()", "ng-disabled" => "!numberSpoken" } I give up!
-            %em For plain numbers, do not include commas (1234); for currencies, include just the decimal (12.34).
+      -# %button{ "ng-click" => "arpeggiate()" }
+        -# Arpeggiate!
 
-      .row
-        .large-12.columns
-          %h2
-            Step 3
-            %small Count all the stars!
-          .stars{ "ng-show" => "stars.length" }
-            %span.star{ "ng-repeat" => "star in stars" }
-              %img{ src: "images/star.png" }
-                {{ star.number }}
-          %p{ "ng-show" => "!stars.length" }
-            No stars yet! (Hint: you have to <i>earn</i> them.)
+      %button{ "ng-click" => "addVoice()" }
+        New Voice
 
-      .row.options
-        .large-12.columns
-          %fieldset
-            %legend Options
+      .voices
+        .voice{ "ng-repeat" => "voice in voices" }
+          %label.oscillator-type
+            %span Type:
+            - ['sine', 'square', 'sawtooth', 'triangle'].each do |oscillator_type|
+              %label{ for: "oscillator-type-#{oscillator_type}" }
+                %input{ id: "oscillator-type-#{oscillator_type}", "ng-model" => "voice.oscillator.oscillatorType", type: "radio", value: oscillator_type }
+                  = oscillator_type.capitalize
 
-            %h5
-              Number Type
-              %small Stop giving that cashier a blank stare.
-            %label{ for: "typeplain" }
-              %input#typeplain{ checked: "checked", "ng-model" => "numberType", type: "radio", value: "plain" }
-                Plain
-            %label{ for: "typecurrency" }
-              %input#typecurrency{ "ng-model" => "numberType", type: "radio", value: "currency" }
-                Currency
-            %label{ for: "typeyear" }
-              %input#typeyear{ "ng-model" => "numberType", type: "radio", value: "year" }
-                Year
+          .knobs
+            %label
+              %span Volume:
+              %input{ "ng-model" => "voice.envelope.volume", min: "0", max: "1", step: "0.01", type: "range" }
+                {{ voice.envelope.volume }}
+            %label
+              %span Attack:
+              %input{ "ng-model" => "voice.envelope.attack", min: "0", max: "1", step: "0.01", type: "range" }
+                {{ voice.envelope.attack }}
+            %label
+              %span Release:
+              %input{ "ng-model" => "voice.envelope.release", min: "0", max: "1", step: "0.01", type: "range" }
+                {{ voice.envelope.release }}
 
-            %h5
-              Maximum
-              %small Start small, go big!
-            %label{ for: "max10" }
-              %input#max10{ "ng-model" => "maximum", type: "radio", value: "10", "ng-disabled" => "disableMaximum()" }
-                10
-            %label{ for: "max100" }
-              %input#max100{ "ng-model" => "maximum", type: "radio", value: "100","ng-disabled" => "disableMaximum()"   }
-                100
-            %label{ for: "max1000" }
-              %input#max1000{ "ng-model" => "maximum", type: "radio", value: "1000", "ng-disabled" => "disableMaximum()" }
-                1000
+          %label.detune
+            %span Detune:
+            %input{ "ng-model" => "voice.oscillator.detune", type: "range", min: "-1200", max: "1200" }
+              {{ voice.oscillator.detune }} Cents
 
-            %h5
-              Voice Speed
-              %small Step on it.
-            %span Slow
-            %input{ "ng-model" => "speed", max: "300", min: "100", step: "50", type: "range" }
-            %span Fast
-
-      .row.footer
-        Site built by
-        %a{ href: "http://www.someweather.com" }
-          Evan Goodberry
-        using
-        %a{ href: "http://www.masswerk.at/mespeak/" }
-          meSpeak
-        while eating a <a href="http://www.bagelpubparkslope.com">bagel</a>.
-        <a href="https://github.com/egoodberry/lesnombres">View source</a>.
-
-    %script{src: "http://code.jquery.com/jquery-1.10.1.min.js"}
-    %script{src: "scripts/vendor/angular.js"}
-    %script{src: "scripts/vendor/meSpeak/speak.js"}
-    %script{src: "scripts/app.js"}
-    %script{src: "scripts/lib/util.js"}
-    %script{src: "scripts/lib/voice.js"}
-    %script{src: "scripts/controllers/mainCtrl.js"}
-    :javascript
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-12566670-6', 'lesnombres.com');
-      ga('send', 'pageview');
+  %script{ src: "scripts/vendor/angular.js" }
+  %script{ src: "scripts/vendor/jquery.js" }
+  %script{ src: "scripts/vendor/qwertyHancock.js" }
+  %script{ src: "scripts/app.js" }
+  %script{ src: "scripts/lib/voice.js" }
+  %script{ src: "scripts/lib/arpeggiator.js" }
+  %script{ src: "scripts/lib/oscillator.js" }
+  %script{ src: "scripts/lib/amplifier.js" }
+  %script{ src: "scripts/lib/envelopeGenerator.js" }
+  %script{ src: "scripts/controllers/mainCtrl.js" }

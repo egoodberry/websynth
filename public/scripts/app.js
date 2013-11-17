@@ -5,5 +5,5 @@ App.registerController = function(name, controller) {
   App.module.controller(name, controller);
 };
 
-meSpeak.loadConfig("/scripts/vendor/meSpeak/config.json");
-meSpeak.loadVoice("/scripts/vendor/meSpeak/voices/fr.json");
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
+App.audioContext = new AudioContext();

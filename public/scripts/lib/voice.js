@@ -1,20 +1,16 @@
-App.voice = {
-  _praises: ["exact!", "correcte!", "excellent!", "magnefique!"],
-  _reprimands: ["non!", "tort!"],
+(function(ns) {
+  ns.Voice = function($scope) {
+    this.oscillator = new ns.Oscillator($scope);
+    this.amplifier = new ns.Amplifier($scope);
+    this.envelope = new ns.EnvelopeGenerator($scope);
 
-  say: function(text, speed) {
-    meSpeak.speak(String(text), { voice: 'fr', speed: speed || 175 });
-  },
+    this.oscillator.connect(this.amplifier);
+    this.envelope.connect(this.amplifier.amplitude);
+    this.amplifier.connect(ns.audioContext.destination);
 
-  praise: function() {
-    var index = Math.floor(Math.random() * this._praises.length)
-      , randomPraise = this._praises[index];
-    this.say(randomPraise);
-  },
-
-  reprimand: function() {
-    var index = Math.floor(Math.random() * this._reprimands.length)
-      , randomReprimand = this._reprimands[index];
-    this.say(randomReprimand);
+    this.play = function(frequency) {
+      this.oscillator.setFrequency(frequency);
+      this.envelope.trigger();
+    };
   }
-};
+})(App);
