@@ -6,48 +6,47 @@
     %link{ href: "styles/app.css", rel: "stylesheet" }
   %body{ "ng-app" => "app" }
     #content.ng-cloak{ "ng-controller" => "MainCtrl" }
-      %label
-        %input{ "ng-model" => "arpeggiate", type: "checkbox" }
-        Arpeggiate
-      %label
-        %input{ "ng-model" => "arpeggiationSpeed", type: "range", min: "10", max: "1000" }
-        Arpeggiation Speed
-      %label
-        %input{ "ng-model" => "arpeggioSort", type: "checkbox" }
-        Ascending Order
+      .arpeggiation
+        %label
+          %input{ "ng-model" => "arpeggiate", type: "checkbox" }
+          Arpeggiate
+        %label
+          Arpeggiation Speed
+          %input{ "ng-model" => "arpeggiationSpeed", type: "range", min: "10", max: "1000" }
+        %label
+          %input{ "ng-model" => "arpeggioSort", type: "checkbox" }
+          Ascending Order
 
       #keyboard
-
-      -# %button{ "ng-click" => "arpeggiate()" }
-        -# Arpeggiate!
 
       %button{ "ng-click" => "addVoice()" }
         New Voice
 
       .voices
         .voice{ "ng-repeat" => "voice in voices" }
-          %label.oscillator-type
+          %label
             %span Type:
             - ['sine', 'square', 'sawtooth', 'triangle'].each do |oscillator_type|
               %label{ for: "oscillator-type-#{oscillator_type}" }
                 %input{ id: "oscillator-type-#{oscillator_type}", "ng-model" => "voice.oscillator.oscillatorType", type: "radio", value: oscillator_type }
                   = oscillator_type.capitalize
 
-          .knobs
-            %label
-              %span Volume:
-              %input{ "ng-model" => "voice.envelope.volume", min: "0", max: "1", step: "0.01", type: "range" }
-                {{ voice.envelope.volume }}
-            %label
-              %span Attack:
-              %input{ "ng-model" => "voice.envelope.attack", min: "0", max: "1", step: "0.01", type: "range" }
-                {{ voice.envelope.attack }}
-            %label
-              %span Release:
-              %input{ "ng-model" => "voice.envelope.release", min: "0", max: "1", step: "0.01", type: "range" }
-                {{ voice.envelope.release }}
+          %label
+            %span Volume:
+            %input{ "ng-model" => "voice.envelope.volume", min: "0", max: "1", step: "0.01", type: "range" }
+              {{ voice.envelope.volume }}
 
-          %label.detune
+          %label
+            %span Attack:
+            %input{ "ng-model" => "voice.envelope.attack", min: "0", max: "1", step: "0.01", type: "range" }
+              {{ voice.envelope.attack }}
+
+          %label
+            %span Release:
+            %input{ "ng-model" => "voice.envelope.release", min: "0", max: "1", step: "0.01", type: "range" }
+              {{ voice.envelope.release }}
+
+          %label
             %span Detune:
             %input{ "ng-model" => "voice.oscillator.detune", type: "range", min: "-1200", max: "1200" }
               {{ voice.oscillator.detune }} Cents

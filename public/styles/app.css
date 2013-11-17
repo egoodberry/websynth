@@ -9,7 +9,8 @@ body {
 .voice {
   margin-bottom: 25px;
 }
-.voice .oscillator-type, .voice .detune {
+.arpeggiation > label,
+.voice > label {
   display: block;
 }
 .voice > label span {
