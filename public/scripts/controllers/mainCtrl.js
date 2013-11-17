@@ -19,9 +19,7 @@
       }
     };
 
-    if (navigator.requestMIDIAccess) {
-      navigator.requestMIDIAccess(); //.then( onMIDIStarted)
-    }
+    ns.Midi.initialize();
 
     // var arpeggiator;
     // $scope.arpeggiate = function() {
