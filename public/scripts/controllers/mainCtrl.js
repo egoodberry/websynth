@@ -2,7 +2,7 @@
   ns.registerController('MainCtrl', function($scope) {
     $scope.voices = [];
 
-    $scope.arpeggiate = true;
+    $scope.arpeggiate = false;
     $scope.arpeggiationSpeed = 200;
     $scope.arpeggioSort = true;
     var frequencies = [];
