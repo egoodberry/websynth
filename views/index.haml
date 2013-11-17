@@ -6,6 +6,15 @@
     %link{ href: "styles/app.css", rel: "stylesheet" }
   %body{ "ng-app" => "app" }
     #content.ng-cloak{ "ng-controller" => "MainCtrl" }
+      %label
+        %input{ "ng-model" => "arpeggiate", type: "checkbox" }
+        Arpeggiate
+      %label
+        %input{ "ng-model" => "arpeggiationSpeed", type: "range", min: "10", max: "1000" }
+        Arpeggiation Speed
+      %label
+        %input{ "ng-model" => "arpeggioSort", type: "checkbox" }
+        Ascending Order
 
       #keyboard
 
